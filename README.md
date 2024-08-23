@@ -1,8 +1,24 @@
 # Northcoders News API
 
-For instructions, please head over to [L2C NC News](https://l2c.northcoders.com/courses/be/nc-news).
+This project utilises two databases. A test and development database. The database software of choice is Postgres and will need to be installed along with pg-format.
 
+Please ensure you create two .env files associated with this. They should be as follows:
 
+**.env.test**
+```
+PGDATABASE=nc_news_test
+```
+
+**.end.development**
+```
+PGDATABASE=nc_news
+```
+
+To ensure your databases are created and ready to go you may execute the following commands:
+```
+psql -f db/setup.sql
+npm run seed
+```
 
 --- 
 
