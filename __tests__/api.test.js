@@ -19,4 +19,15 @@ describe("/api/topic", () => {
             });
         })
     })
+    describe("/api", () => {
+        test("Responds with status 200 and serves json file", () => {
+            return request(app)
+            .get("/api")
+            .expect(200)
+            .then(({ body: data })=>{
+                    expect(Object.keys(data).length).not.toBe(0);
+                    expect(typeof data).toBe('object');
+                           });
+            })
+        })    
 })
