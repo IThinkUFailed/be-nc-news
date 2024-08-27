@@ -14,8 +14,8 @@ describe("/api/topic", () => {
         .then(({ body: { topics } })=>{
             expect(topics.length).toBe(3);
             topics.forEach(topic => {
-                expect(topic).toHaveProperty("slug", expect.any(String));
-                expect(topic).toHaveProperty("description", expect.any(String));
+                expect(topic).toHaveProperty("slug", expect.any(String))
+                expect(topic).toHaveProperty("description", expect.any(String))
             });
         })
     })
@@ -25,7 +25,7 @@ describe("/api/topic", () => {
             .get("/api")
             .expect(200)
             .then(({ body: data })=>{
-                    expect(Object.keys(data).length).not.toBe(0);
+                    expect(Object.keys(data).length).not.toBe(0) // this is how we search through an object to make sure its not empty
                     expect(typeof data).toBe('object');
                            });
             })
@@ -37,14 +37,14 @@ describe("/api/topic", () => {
                 .expect(200)
                 .then((response) => {
                     // console.log(response)
-                    expect(response.body.article).toHaveProperty("author", expect.any(String));
-                    expect(response.body.article).toHaveProperty("title", expect.any(String));
-                    expect(response.body.article).toHaveProperty("article_id", expect.any(Number));
-                    expect(response.body.article).toHaveProperty("body", expect.any(String));
-                    expect(response.body.article).toHaveProperty("topic", expect.any(String));
-                    expect(response.body.article).toHaveProperty("created_at", expect.any(String));
-                    expect(response.body.article).toHaveProperty("votes", expect.any(Number));
-                    expect(response.body.article).toHaveProperty("article_img_url", expect.any(String));
+                    expect(response.body.article).toHaveProperty("author", expect.any(String))
+                    expect(response.body.article).toHaveProperty("title", expect.any(String))
+                    expect(response.body.article).toHaveProperty("article_id", expect.any(Number))
+                    expect(response.body.article).toHaveProperty("body", expect.any(String))
+                    expect(response.body.article).toHaveProperty("topic", expect.any(String))
+                    expect(response.body.article).toHaveProperty("created_at", expect.any(String))
+                    expect(response.body.article).toHaveProperty("votes", expect.any(Number))
+                    expect(response.body.article).toHaveProperty("article_img_url", expect.any(String))
                     
                 });
             });
@@ -78,7 +78,7 @@ describe('/api/articles', () => {
             expect(article).toHaveProperty("author", expect.any(String))
             expect(article).toHaveProperty("title", expect.any(String))
             expect(article).toHaveProperty("article_id", expect.any(Number))
-            expect(article).toHaveProperty("body", expect.any(String))
+            expect(article).not.toHaveProperty("body", expect.any(String))
             expect(article).toHaveProperty("topic", expect.any(String))
             expect(article).toHaveProperty("created_at", expect.any(String))
             expect(article).toHaveProperty("votes", expect.any(Number))
