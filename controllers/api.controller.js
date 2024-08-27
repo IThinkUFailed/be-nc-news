@@ -1,6 +1,5 @@
 // const { end } = require("../db/connection");
-const {selectTopics,selectArticleById} = require("../models/api.model")
-// const {errorHandlers} = require('../errors')
+const {selectTopics,selectArticleById, getAllArticles} = require("../models/api.model")
 
 exports.getTopics = (req, res, next) => {
     selectTopics().then((topics)=>{
@@ -18,6 +17,14 @@ exports.getArticleById = (req, res, next) => {
       next(err)
     })
   };
+
+  exports.getArticles = (req, res, next) => {
+    getAllArticles().then((articles)=>{
+        res.status(200).send({articles})
+    }).catch((err)=> {
+        console.log(err)
+        next(err)
+})}
 
 exports.endpoints = (req, res, next) => {
     const endpoints = require('../endpoints.json'); // require automatically parses
