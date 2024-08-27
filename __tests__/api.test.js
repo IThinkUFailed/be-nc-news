@@ -31,7 +31,7 @@ describe("/api/topic", () => {
             })
         }) 
         describe('/api/articles/:article_id', () => {
-            test('GET:200 sends a article to the client', () => {
+            test('Sends an article to the client', () => {
               return request(app)
                 .get('/api/articles/1')
                 .expect(200)
@@ -48,7 +48,7 @@ describe("/api/topic", () => {
                     
                 });
             });
-            test('GET:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
+            test('Sends an appropriate status and error message when given a valid but non-existent id', () => {
               return request(app)
                 .get('/api/articles/999')
                 .expect(404)
@@ -56,13 +56,36 @@ describe("/api/topic", () => {
                   expect(response.body.msg).toBe('article does not exist');
                 });
             });
-            test('GET:400 sends an appropriate status and error message when given an invalid id', () => {
+            test('Sends an appropriate status and error message when given an invalid id', () => {
               return request(app)
                 .get('/api/articles/invalid')
                 .expect(400)
                 .then((response) => {
                   expect(response.body.msg).toBe('Bad request');
                 });
+
             });   
         })
-})
+describe('/api/articles', () => {
+  test.only('sends all articles to the client', () => {
+    return request(app)
+      .get('/api/articles')
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+        expect(articles.length).toBeGreaterThan(0);
+          articles.forEach((article)=>{ 
+            expect(article).toHaveProperty("author", expect.any(String))
+            expect(article).toHaveProperty("title", expect.any(String))
+            expect(article).toHaveProperty("article_id", expect.any(Number))
+            expect(article).toHaveProperty("body", expect.any(String))
+            expect(article).toHaveProperty("topic", expect.any(String))
+            expect(article).toHaveProperty("created_at", expect.any(String))
+            expect(article).toHaveProperty("votes", expect.any(Number))
+            expect(article).toHaveProperty("article_img_url", expect.any(String))
+            expect(article).toHaveProperty("comment_count", expect.any(String)) // I thought this would be a number
+          })
+            
+      });
+  })
+})})
