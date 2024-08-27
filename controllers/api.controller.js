@@ -1,5 +1,4 @@
-// const { end } = require("../db/connection");
-const {selectTopics,selectArticleById, getAllArticles} = require("../models/api.model")
+const {selectTopics,selectArticleById, getAllArticles, retrieveCommentsById} = require("../models/api.model")
 
 exports.getTopics = (req, res, next) => {
     selectTopics().then((topics)=>{
@@ -8,6 +7,15 @@ exports.getTopics = (req, res, next) => {
         console.log(err)
         next(err)
 })}
+
+exports.getArticleComments = (req, res, next) => {
+  const { article_id } = req.params;
+  retrieveCommentsById(article_id).then((comments) => {
+    res.status(200).send({ comments });
+  }).catch((err)=> {
+    next(err)
+  })
+};
 
 exports.getArticleById = (req, res, next) => {
     const { article_id } = req.params;
