@@ -263,7 +263,7 @@ describe("/api/topic", () => {
           expect(response.body.msg).toBe("article does not exist");
         });
     });
-    test("Should return a 500 error if invalid data type", () => {
+    test("Should return a 400 error if invalid data type for article_id", () => {
       return request(app)
         .patch("/api/articles/19e9")
         .send({
@@ -306,5 +306,32 @@ describe("/api/topic", () => {
           expect(article).not.toEqual(original);
         });
     });
+    describe("DELETE /api/comments/:comment_id", () => {
+      test("Should delete a comment and return empty object if succesful", () => {
+        return request(app)
+          .delete("/api/comments/1")
+          .expect(204)
+          .then((response) => {
+                      // tried to get it to return "no content" but it wouldn't work
+              expect(response.body).toEqual({});
+          });
+      });
+  });
+  test("Should respond with a 404 if the comment_id does not exist", () => {
+    return request(app)
+      .delete("/api/comments/1000")
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("comment does not exist");
+      });
+  });
+  test("Should respond with a 400 if passed a non-valid datatype as comment_id", () => {
+    return request(app)
+      .delete("/api/comments/1e")
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe("Bad request");
+      });
   });
 });
+})
