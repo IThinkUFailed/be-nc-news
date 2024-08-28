@@ -8,6 +8,24 @@ exports.selectTopics = () => {
   });
 };
 
+
+exports.patchArticle = (article_id, inc_votes) => {
+  return db
+    .query(
+      `UPDATE articles
+       SET votes = votes + $1
+       WHERE article_id = $2
+       RETURNING *;`,
+      [inc_votes, article_id]
+    )
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return Promise.reject({ status: 404, msg: "article does not exist" });
+      }
+      return result.rows[0];
+    });
+};
+
 exports.postComment = (article_id, body, username) => {
   return db
     .query(
@@ -18,14 +36,7 @@ exports.postComment = (article_id, body, username) => {
       if (result.rows.length === 0) {
         return Promise.reject({ status: 404, msg: "article does not exist" });
       }
-      return db
-        .query(
-          `INSERT INTO comments (body, author, article_id) VALUES ($1, $2, $3) RETURNING*;`,
-          [body, username, article_id]
-        )
-        .then((result) => {
-          return result.rows[0];
-        });
+      return result.rows[0];
     });
 };
 
