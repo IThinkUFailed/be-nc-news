@@ -5,12 +5,24 @@ const {
   retrieveCommentsById,
   postComment,
   patchArticle,
+  deleteCommentById
 } = require("../models/api.model");
 
 exports.getTopics = (req, res, next) => {
   selectTopics()
     .then((topics) => {
       res.status(200).send({ topics });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.delComment = (req, res, next) => {
+  const { comment_id } = req.params;
+  deleteCommentById(comment_id)
+    .then(() => {
+      res.status(204).send({ status: 204, msg: "no content" });
     })
     .catch((err) => {
       next(err);
