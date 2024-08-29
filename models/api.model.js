@@ -45,7 +45,20 @@ exports.postComment = (article_id, body, username) => {
     });
 };
 
-exports.getAllArticles = () => {
+exports.getAllArticles = (sort_by = "created_at", order_by = "DESC") => {
+  let validColumns = [
+    "article_id",
+    "title",
+    "topic",
+    "author",
+    "votes",
+    "created_at",
+    "article_img_url",
+  ];
+  let validOrder = ["ASC", "DESC", "asc", "desc"];
+  if (!validColumns.includes(sort_by) || !validOrder.includes(order_by)) {
+    return Promise.reject({ status: 400, msg: "invalid input" });
+  }
   return db
     .query(
       `
@@ -60,7 +73,7 @@ exports.getAllArticles = () => {
 FROM articles
 LEFT JOIN comments ON articles.article_id = comments.article_id
 GROUP BY articles.article_id
-ORDER BY articles.created_at DESC;
+ORDER BY ${sort_by} ${order_by};
 `
     )
     .then((result) => {
@@ -69,15 +82,16 @@ ORDER BY articles.created_at DESC;
 };
 
 exports.deleteCommentById = (comment_id) => {
-  return db.query(
-    `DELETE FROM comments WHERE comment_id = $1 RETURNING *;`, 
-    [comment_id]
-  ).then((result) => {
-    if (result.rows.length === 0) {
-      return Promise.reject({ status: 404, msg: "comment does not exist" });
-    }
-    return
-  });
+  return db
+    .query(`DELETE FROM comments WHERE comment_id = $1 RETURNING *;`, [
+      comment_id,
+    ])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return Promise.reject({ status: 404, msg: "comment does not exist" });
+      }
+      return;
+    });
 };
 
 exports.retrieveCommentsById = (article_id) => {
