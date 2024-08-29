@@ -96,7 +96,182 @@ describe("/api/topics", () => {
           });
         });
     });
+    test("sends all articles to the client sorted by created_at ascending", () => {
+      return request(app)
+        .get("/api/articles?sort_by=created_at&order_by=asc")
+        .expect(200)
+        .then((response) => {
+          const { articles } = response.body;
+          expect(articles.length).toBeGreaterThan(0);
+          expect(articles).toBeSortedBy("created_at", { descending: false });
+        })
   });
+})
+test("sends all articles to the client sorted by created_at descending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=created_at&order_by=desc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("created_at", { descending: true });
+    })
+});
+test("sends all articles to the client sorted by article_id ascending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=article_id&order_by=asc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("article_id", { descending: false });
+    })
+});
+test("sends all articles to the client sorted by article_id descending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=article_id&order_by=desc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("article_id", { descending: true });
+    })
+});
+test("sends all articles to the client sorted by title ascending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=title&order_by=asc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("title", { descending: false });
+    })
+});
+test("sends all articles to the client sorted by title descending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=title&order_by=desc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("title", { descending: true });
+    })
+});
+})
+test("sends all articles to the client sorted by title ascending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=topic&order_by=asc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("topic", { descending: false });
+    })
+});
+test("sends all articles to the client sorted by topic descending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=topic&order_by=desc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("topic", { descending: true });
+    })
+});
+test("sends all articles to the client sorted by topic ascending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=topic&order_by=asc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("topic", { descending: false });
+    })
+});
+test("sends all articles to the client sorted by author descending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=author&order_by=desc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("author", { descending: true });
+    })
+});
+test("sends all articles to the client sorted by author ascending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=author&order_by=asc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("author", { descending: false });
+    })
+});
+test("sends all articles to the client sorted by votes descending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=votes&order_by=desc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("votes", { descending: true });
+    })
+});
+test("sends all articles to the client sorted by body ascending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=votes&order_by=asc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("votes", { descending: false });
+    })
+});
+test("sends all articles to the client sorted by article_img_url descending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=article_img_url&order_by=desc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("article_img_url", { descending: true });
+    })
+});
+test("sends all articles to the client sorted by article_img_url ascending", () => {
+  return request(app)
+    .get("/api/articles?sort_by=article_img_url&order_by=asc")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("article_img_url", { descending: false });
+    })
+});
+test("returns a 400 error when provided an invalid sort_by value", () => {
+  return request(app)
+    .get("/api/articles?sort_by=banana&order_by=asc")
+    .expect(400)
+    .then((response) => {
+      expect(response.body.msg).toBe("invalid input")
+    })
+});
+test("returns a 400 error when provided an invalid order_by value", () => {
+  return request(app)
+    .get("/api/articles?sort_by=created_at&order_by=sideways")
+    .expect(400)
+    .then((response) => {
+      expect(response.body.msg).toBe("invalid input")
+    })
+});
+test("returns a 400 error when provided an invalid sort_by and order_by value", () => {
+  return request(app)
+    .get("/api/articles?sort_by=banana&order_by=sideways")
+    .expect(400)
+    .then((response) => {
+      expect(response.body.msg).toBe("invalid input")
+    })
+});
   describe("/api/articles/:article_id/comments", () => {
     test("sends all comments to the user based on an article_id", () => {
       return request(app)
@@ -349,4 +524,3 @@ describe("/api/users", () => {
   });
 });
 });
-})
