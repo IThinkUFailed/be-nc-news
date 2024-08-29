@@ -1,15 +1,15 @@
 const express = require('express');
 const app = express();
-const {getTopics, endpoints, getArticleById, getArticles, getArticleComments, addComment, updateArticle, delComment} = require("./controllers/api.controller")
+const {getTopics, endpoints, getArticleById, getArticles, getArticleComments, addComment, updateArticle, delComment,getUsers} = require("./controllers/api.controller")
 const {customErrorHandler, serverErrorHandler, psqlErrorHandler} = require('./errorHandler')
 app.use(express.json())
 
-app.get('/api/topics', getTopics)
 app.get('/api', endpoints) 
+app.get('/api/topics', getTopics)
 app.get('/api/articles/:article_id', getArticleById);
 app.get('/api/articles', getArticles);
 app.get('/api/articles/:article_id/comments', getArticleComments);
-
+app.get('/api/users', getUsers);
 
 app.post('/api/articles/:article_id/comments', addComment);
 

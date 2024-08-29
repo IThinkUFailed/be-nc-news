@@ -7,7 +7,7 @@ const endpoints = require("../endpoints.json");
 
 beforeEach(() => seed(data));
 afterAll(() => db.end());
-describe("/api/topic", () => {
+describe("/api/topics", () => {
   test("Responds with status 200 and an array containing data for all topics", () => {
     return request(app)
       .get("/api/topics")
@@ -333,5 +333,20 @@ describe("/api/topic", () => {
         expect(response.body.msg).toBe("Bad request");
       });
   });
+});
+describe("/api/users", () => {
+  test("Should return an array of all users as objects", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((response) => {
+        const { users } = response.body;
+        users.forEach((user) => {
+          expect(user).toHaveProperty("username", expect.any(String));
+          expect(user).toHaveProperty("name", expect.any(String));
+          expect(user).toHaveProperty("avatar_url", expect.any(String));
+        });
+  });
+});
 });
 })

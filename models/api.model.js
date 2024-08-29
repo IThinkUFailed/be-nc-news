@@ -8,6 +8,11 @@ exports.selectTopics = () => {
   });
 };
 
+exports.getAllUsers = () => {
+  return db.query(`SELECT * FROM users;`).then((result) => {
+    return result.rows;
+  });
+};
 
 exports.patchArticle = (article_id, inc_votes) => {
   return db

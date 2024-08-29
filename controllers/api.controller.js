@@ -5,13 +5,24 @@ const {
   retrieveCommentsById,
   postComment,
   patchArticle,
-  deleteCommentById
+  deleteCommentById,
+  getAllUsers
 } = require("../models/api.model");
 
 exports.getTopics = (req, res, next) => {
   selectTopics()
     .then((topics) => {
       res.status(200).send({ topics });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.getUsers = (req, res, next) => {
+  getAllUsers()
+    .then((users) => {
+      res.status(200).send({ users });
     })
     .catch((err) => {
       next(err);
