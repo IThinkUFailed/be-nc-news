@@ -88,12 +88,15 @@ exports.getArticleById = (req, res, next) => {
 
 exports.getArticles = (req, res, next) => {
   const {sort_by, order_by} = req.query
-  getAllArticles(sort_by, order_by)
+  const topic = req.query.topic
+  // console.log(req.query, "<-- query")
+  // console.log(req.params, "<-- params")
+  getAllArticles(sort_by, order_by, topic)
     .then((articles) => {
       res.status(200).send({ articles });
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       next(err);
     });
 };

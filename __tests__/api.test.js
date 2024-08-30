@@ -248,6 +248,36 @@ test("sends all articles to the client sorted by article_img_url ascending", () 
       expect(articles).toBeSortedBy("article_img_url", { descending: false });
     })
 });
+test.only("Sends all articles with the topic of mitch", () => {
+  return request(app)
+    .get("/api/articles?topic=mitch")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      articles.forEach((article) => {
+          expect(article.topic).toBe("mitch")
+      });
+    });
+  });
+    test("Sends all articles with the topic of cats", () => {
+      return request(app)
+        .get("/api/articles?topic=cats")
+        .expect(200)
+        .then((response) => {
+          const { articles } = response.body;
+          articles.forEach((article) => {
+              expect(article.topic).toBe("cats")
+          });
+        });
+    });
+        test.only("Should return an appropriate response when a non-valid topic is submitted", () => {
+          return request(app)
+            .get("/api/articles?topic=chicken")
+            .expect(404)
+            .then((response) => {
+                  expect(response.body.msg).toBe("not found") // what? this returns cats?
+              });
+            });
 test("returns a 400 error when provided an invalid sort_by value", () => {
   return request(app)
     .get("/api/articles?sort_by=banana&order_by=asc")
