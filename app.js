@@ -3,6 +3,8 @@ const app = express();
 const {getTopics, endpoints, getArticleById, getArticles, getArticleComments, addComment, updateArticle, delComment,getUsers} = require("./controllers/api.controller")
 const {customErrorHandler, serverErrorHandler, psqlErrorHandler} = require('./errorHandler')
 app.use(express.json())
+const cors = require('cors');
+app.use(cors());
 
 app.get('/api', endpoints) 
 app.get('/api/topics', getTopics)
