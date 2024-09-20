@@ -92,7 +92,7 @@ describe("/api/topics", () => {
               "article_img_url",
               expect.any(String)
             );
-            expect(article).toHaveProperty("comment_count", expect.any(String)); // I thought this would be a number
+            expect(article).toHaveProperty("comment_count", expect.any(Number)); // I thought this would be a number
           });
         });
     });
@@ -123,6 +123,19 @@ test("sends all articles to the client sorted by article_id ascending", () => {
     .expect(200)
     .then((response) => {
       const { articles } = response.body;
+      expect(articles.length).toBeGreaterThan(0);
+      expect(articles).toBeSortedBy("article_id", { descending: false });
+    })
+});
+test("sends all articles to the client sorted by article_id ascending", () => {
+  return request(app)
+    .get("/api/articles?topic=cats&sort_by=article_id&order_by=ASC")
+    .expect(200)
+    .then((response) => {
+      const { articles } = response.body;
+      articles.map((article)=>{
+        expect(article.topic).toBe("cats")
+      })
       expect(articles.length).toBeGreaterThan(0);
       expect(articles).toBeSortedBy("article_id", { descending: false });
     })
